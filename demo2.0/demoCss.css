@@ -1,0 +1,63 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+#viewArea {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  /* flex-direction: column; */
+}
+.toolBar {
+  width: 200px;
+  height: 100%;
+  box-sizing: border-box;
+  border: 1px solid black;
+  /* background-color: aquamarine; */
+}
+.toolBarBtn {
+  padding: 5px;
+  border-bottom: 1px solid black;
+}
+.canvasArea {
+  position: relative;
+  width: calc(100% - 400px);
+  height: 100%;
+  /* background: linear-gradient(to right, #ccc 1px, transparent 1px),
+    linear-gradient(to bottom, #ccc 1px, transparent 1px);
+  background-repeat: repeat;
+  background-size: 10px 10px; */
+}
+#drawCanvas {
+  /* position: relative; */
+  /* width: 100%;
+  height: 100%; */
+}
+.textItem {
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: move;
+  user-select: none;
+  z-index: 1;
+}
+.lineItem {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: #fff;
+  border: 1px solid #000;
+  /* border-radius: 50%; */
+}
+.editArea {
+  width: 200px;
+  height: 100%;
+  box-sizing: border-box;
+  border: 1px solid black;
+}
+.eidtItem {
+  margin-bottom: 5px;
+}

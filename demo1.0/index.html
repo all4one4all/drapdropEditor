@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <title></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      var itemNum = 1;
+      function dragEvent(event) {
+        var obj = event.target;
+        obj.style.zIndex = 99;
+        event = event || window.event;
+        var positionX = document.getElementById("positionX");
+        var positionY = document.getElementById("positionY");
+        var contentText = document.getElementById("contentText");
+        var itemHeight = document.getElementById("itemHeight");
+        var itemWidth = document.getElementById("itemWidth");
+        positionX.innerHTML = obj.offsetLeft;
+        positionY.innerHTML = obj.offsetTop;
+        contentText.innerHTML = obj.innerHTML;
+        itemHeight.innerHTML = obj.offsetHeight;
+        itemWidth.innerHTML = obj.offsetWidth;
+        var mouseLeft = event.clientX - obj.offsetLeft;
+        var mouseTop = event.clientY - obj.offsetTop;
+        obj.style.backgroundColor = "yellowgreen";
+        document.onmousemove = function (event) {
+          event = event || window.event;
+          var left = event.clientX - mouseLeft;
+          var top = event.clientY - mouseTop;
+          obj.style.left = left + "px";
+          obj.style.top = top + "px";
+          positionX.innerHTML = left;
+          positionY.innerHTML = top;
+        };
+        document.onmouseup = function () {
+          document.onmousemove = null;
+          document.onmouseup = null;
+          obj.style.zIndex = 1;
+          obj.style.backgroundColor = "white";
+          positionX.innerHTML = "";
+          positionY.innerHTML = "";
+          contentText.innerHTML = "";
+          itemHeight.innerHTML = "";
+          itemWidth.innerHTML = "";
+        };
+        return false;
+      }
+      function addNew() {
+        var body = document.getElementsByTagName("body");
+        var newItem = document.createElement("div");
+        newItem.setAttribute("class", "item1");
+        var itemName = "新增元素" + itemNum;
+        var txt = document.createTextNode(itemName);
+        itemNum++;
+        newItem.appendChild(txt);
+        newItem.onmousedown = dragEvent;
+        body[0].appendChild(newItem);
+        newItem = null;
+        body = null;
+        txt = null;
+      }
+    </script>
+    <style>
+      body {
+        padding: 0;
+        margin: 0;
+        float: left;
+      }
+      .flex {
+        display: flex;
+      }
+      .area {
+        width: 500px;
+        height: 500px;
+        /* background-color: aquamarine; */
+        background: linear-gradient(to right, #ccc 1px, transparent 1px),
+          linear-gradient(to bottom, #ccc 1px, transparent 1px);
+        background-repeat: repeat; /* 默认为 repeat */
+        background-size: 10px 10px;
+      }
+      .addBtn {
+        height: 30px;
+      }
+      .item1 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        /* width: 50px;
+        height: 50px; */
+        cursor: move;
+        background-color: white;
+        user-select: none;
+        z-index: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="flex">
+      <div class="area"></div>
+      <button class="addBtn" onclick="addNew()">新增元素</button>
+      <div>
+        <p>X坐标：<span id="positionX"></span></p>
+        <p>Y坐标：<span id="positionY"></span></p>
+        <p>高度：<span id="itemHeight"></span></p>
+        <p>宽度：<span id="itemWidth"></span></p>
+        <p>内容：<span id="contentText"></span></p>
+      </div>
+    </div>
+
+    <div class="item1" onmousedown="dragEvent(event)">新增元素</div>
+
+    <!-- <div class="item" draggable="true"></div> -->
+  </body>
+</html>
