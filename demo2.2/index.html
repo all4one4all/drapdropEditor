@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <title>Document</title>
+
+    <link rel="stylesheet" href="demoCss.css" />
+  </head>
+  <body>
+    <div id="viewArea">
+      <div class="toolBar">
+        <div class="toolBarBtn" @click="create()">新增画布</div>
+        <div class="toolBarBtn" @click="addNew('text')">文本</div>
+        <div class="toolBarBtn" @click="addNew('line')">线</div>
+      </div>
+      <div
+        class="canvasArea"
+        ref="canvasArea"
+        @mousemove.stop="pullEvent($event)"
+        @mouseup.stop="dropEvent()"
+      >
+        <div
+          class="canvasSquare"
+          v-show="canvasSquare.visible"
+          :style="{
+              width:canvasSquare.width+'px',
+              height:canvasSquare.height+'px',
+              border:canvasSquare.edit?'1px solid #40a2de':'1px solid #ccc'
+            }"
+        ></div>
+        <canvas
+          id="drawCanvas"
+          @click="editCanvasSquare($event)"
+          :width="getCanvasWidth"
+          :height="getCanvasHeight"
+        ></canvas>
+
+        <!-- <div
+          class="element"
+          v-for="elementItem in elementContent"
+          :key="elementItem.id"
+          :style="{
+            left: elementItem.left + 'px', 
+            top: elementItem.top + 'px', 
+            width: elementItem.width?elementItem.width + 'px':'',
+            height: elementItem.height?elementItem.height + 'px':'',
+          }"
+          :style="getElementAttribute(elementItem)"
+          @mousedown="dragEvent($event)"
+        > -->
+        <template v-for="elementItem in elementContent">
+          <div
+            v-show="elementItem.visible"
+            class="element"
+            :key="elementItem.id"
+            :style="getElementAttribute(elementItem)"
+            @mousedown="dragEvent($event,elementItem)"
+          >
+            {{elementItem.defaultVaue?elementItem.defaultVaue:elementItem.name}}
+          </div>
+        </template>
+      </div>
+      <div class="editArea">
+        <template v-if="canvasSquare.edit">
+          <div>
+            画布高度
+            <input v-model="canvasSquare.width" />
+          </div>
+          <div>
+            画布宽度
+            <input v-model="canvasSquare.height" />
+          </div>
+        </template>
+        <template
+          v-else-if="elementContent[selectStratPointIndex] && elementContent[selectEndPointIndex]"
+        >
+          <div class="eidtItem">
+            开始X坐标<input
+              v-model="elementContent[selectStratPointIndex].top"
+              @change="inputChange()"
+            />
+          </div>
+          <div class="eidtItem">
+            开始Y坐标<input
+              v-model="elementContent[selectStratPointIndex].left"
+              @change="inputChange()"
+            />
+          </div>
+          <div class="eidtItem">
+            结束X坐标<input
+              v-model="elementContent[selectEndPointIndex].top"
+              @change="inputChange()"
+            />
+          </div>
+          <div class="eidtItem">
+            结束Y坐标<input
+              v-model="elementContent[selectEndPointIndex].left"
+              @change="inputChange()"
+            />
+          </div>
+        </template>
+        <template v-else-if="elementContent[selectElementIndex]">
+          <template v-if="elementContent[selectElementIndex].type==='text'">
+            <div class="eidtItem">
+              元素名<input v-model="elementContent[selectElementIndex].name" />
+            </div>
+            <div class="eidtItem">
+              默认值<input
+                v-model="elementContent[selectElementIndex].defaultVaue"
+              />
+            </div>
+            <div class="eidtItem">
+              X坐标<input v-model="elementContent[selectElementIndex].top" />
+            </div>
+            <div class="eidtItem">
+              Y坐标<input v-model="elementContent[selectElementIndex].left" />
+            </div>
+            <div class="eidtItem">
+              宽度<input v-model="elementContent[selectElementIndex].width" />
+            </div>
+            <div class="eidtItem">
+              高度<input v-model="elementContent[selectElementIndex].height" />
+            </div>
+            <div class="eidtItem">
+              字体大小<input
+                v-model="elementContent[selectElementIndex].fontSize"
+              />
+            </div>
+            <div class="eidtItem">
+              是否加粗<input
+                v-model="elementContent[selectElementIndex].fontWeight"
+              />
+            </div>
+            <div class="eidtItem">
+              字体名<input
+                v-model="elementContent[selectElementIndex].fontFamily"
+              />
+            </div>
+          </template>
+        </template>
+      </div>
+    </div>
+    <script src="demoVue.js"></script>
+  </body>
+</html>
