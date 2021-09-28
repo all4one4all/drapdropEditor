@@ -33,6 +33,14 @@ var app = new Vue({
           height: val.height ? val.height + "px" : "",
           "background-color":
             val.edit && val.type !== "line" ? "#40a2de" : "white",
+          "background-image": val.type === "qr" ? "url(testQRCode.png)" : "",
+          "background-repeat": val.type === "qr" ? "no-repeat" : "",
+          "background-size":
+            val.type === "qr"
+              ? val.width && val.height
+                ? val.width + "px" + " " + val.height + "px"
+                : "contain"
+              : "",
           border: val.type === "line" ? "1px solid gray" : "",
           "font-size": val.fontSize + "px",
           "font-weight": val.fontWeight,
@@ -247,6 +255,16 @@ var app = new Vue({
         );
         this.getAllLine();
         this.drawCanvas();
+      } else if (val === "qr") {
+        this.elementContent.push(
+          this.itemInstance(val, this.elementIndex, false, {
+            top: 50,
+            left: 50,
+            name: "QRCode" + this.elementIndex,
+            width: 80,
+            height: 80,
+          })
+        );
       }
     },
     itemInstance(type, num, visible, argumentObj) {
