@@ -91,7 +91,9 @@
           </div>
         </template>
         <template v-else-if="elementContent[selectElementIndex]">
-          <template v-if="elementContent[selectElementIndex].type==='text'">
+          <template
+            v-if="elementContent[selectElementIndex].type==='text' ||elementContent[selectElementIndex].type==='qr'"
+          >
             <div class="eidtItem">
               元素名<input v-model="elementContent[selectElementIndex].name" />
             </div>
@@ -112,6 +114,8 @@
             <div class="eidtItem">
               高度<input v-model="elementContent[selectElementIndex].height" />
             </div>
+          </template>
+          <template v-if="elementContent[selectElementIndex].type==='text'">
             <div class="eidtItem">
               字体大小<input
                 v-model="elementContent[selectElementIndex].fontSize"
@@ -126,28 +130,6 @@
               字体名<input
                 v-model="elementContent[selectElementIndex].fontFamily"
               />
-            </div>
-          </template>
-          <template v-else-if="elementContent[selectElementIndex].type==='qr'">
-            <div class="eidtItem">
-              元素名<input v-model="elementContent[selectElementIndex].name" />
-            </div>
-            <div class="eidtItem">
-              默认值<input
-                v-model="elementContent[selectElementIndex].defaultVaue"
-              />
-            </div>
-            <div class="eidtItem">
-              X坐标<input v-model="elementContent[selectElementIndex].top" />
-            </div>
-            <div class="eidtItem">
-              Y坐标<input v-model="elementContent[selectElementIndex].left" />
-            </div>
-            <div class="eidtItem">
-              宽度<input v-model="elementContent[selectElementIndex].width" />
-            </div>
-            <div class="eidtItem">
-              高度<input v-model="elementContent[selectElementIndex].height" />
             </div>
           </template>
         </template>
